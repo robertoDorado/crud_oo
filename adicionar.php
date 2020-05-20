@@ -8,20 +8,6 @@
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
 </head>
 <body class="body-form">
-    <?php 
-    require_once "config.php";
-
-    if(isset($_POST['nome']) && empty($_POST['nome']) == false){
-        $nome = addslashes($_POST['nome']);
-        $email = addslashes($_POST['email']);
-        $telefone = addslashes($_POST['telefone']);
-
-        $contato = new Contato();
-        $dados = $contato->adicionar($email, $telefone, $nome);
-
-        header("Location: index.php");
-    }
-    ?>
 
 <script>
     if ( window.history.replaceState ) {
@@ -53,7 +39,22 @@
 
 <button class="btn-voltar"><a href="index.php">Voltar</a></button>
 
+<?php 
+    require_once "config.php";
 
+    if(isset($_POST['nome']) && empty($_POST['nome']) == false){
+        $nome = addslashes($_POST['nome']);
+        $email = addslashes($_POST['email']);
+        $telefone = addslashes($_POST['telefone']);
+
+        $contato = new Contato();
+        $contato->adicionar($email, $telefone, $nome);
+
+        header("Location: index.php");
+
+    }
+
+    ?>
     
 </body>
 </html>

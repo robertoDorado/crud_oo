@@ -21,10 +21,9 @@ class Contato{
             $sql->bindValue(':telefone', $telefone);
             $sql->execute();
 
-            echo "cadastro realizado";
+            return true;
         }else{
-
-            echo "Usuário já cadastrado ou não cadastrou com sucesso<br>";
+            return false;
         }
     }
 
