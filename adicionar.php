@@ -33,14 +33,8 @@
 
         <input type="submit" value="Adicionar">
 
-    </form>
-
-</div>
-
-<button class="btn-voltar"><a href="index.php">Voltar</a></button>
-
 <?php 
-    require_once "config.php";
+require_once "config.php";
 
     if(isset($_POST['nome']) && empty($_POST['nome']) == false){
         $nome = addslashes($_POST['nome']);
@@ -48,13 +42,104 @@
         $telefone = addslashes($_POST['telefone']);
 
         $contato = new Contato();
-        $contato->adicionar($email, $telefone, $nome);
+        $verificarnome = $contato->verificarNome2($nome);
+        $verificaremail = $contato->verificarEmail2($email);
+        $verificartelefone = $contato->verificarTelefone2($telefone);
+        $adicionar = $contato->adicionar($email, $telefone, $nome);
 
-        header("Location: index.php");
+    if($verificarnome == true && $verificaremail == true && $verificartelefone == true):
+        ?>
+        <style>
+            .erro{
+            height:30px;
+            width:200px;
+            background-color:rgba(255, 0, 0, 0.5);
+            border:solid 1px red;
+            margin-top:5%;
+            }
+            .erro label{
+            color:white;
+            text-align:center;
+            padding-left:5%;
+            padding-top:1%;
+            }
+        </style>
+        <div class="erro"><label>Usuário já foi cadastrado</label></div>
+        <?php endif;
 
-    }
+            if($verificarnome == true):
+            ?>
+        <style>
+            .erro{
+            height:30px;
+            width:250px;
+            background-color:rgba(255, 0, 0, 0.5);
+            border:solid 1px red;
+            margin-top:5%;
+            }
+            .erro label{
+            color:white;
+            text-align:center;
+            padding-left:5%;
+            padding-top:1%;
+            }
+        </style>
+        <div class="erro"><label>Já existe esse nome no cadastro</label></div>
+            <?php endif;
 
-    ?>
+            if($verificaremail == true):
+            ?>
+        <style>
+            .erro{
+            height:30px;
+            width:250px;
+            background-color:rgba(255, 0, 0, 0.5);
+            border:solid 1px red;
+            margin-top:5%;
+            }
+            .erro label{
+            color:white;
+            text-align:center;
+            padding-left:5%;
+            padding-top:1%;
+            }
+        </style>
+        <div class="erro"><label>Já existe esse email no cadastro</label></div>
+            <?php endif;
+
+            if($verificartelefone == true):
+            ?>
+        <style>
+            .erro{
+            height:30px;
+            width:280px;
+            background-color:rgba(255, 0, 0, 0.5);
+            border:solid 1px red;
+            margin-top:5%;
+            }
+            .erro label{
+            color:white;
+            text-align:center;
+            padding-left:5%;
+            padding-top:1%;
+            }
+        </style>
+        <div class="erro"><label>Já existe esse telefone no cadastro</label></div>
+            <?php endif;
+
+            if($adicionar == true){
+                header("Location: index.php");
+            }
+
+        }
+
+?>
+
+    </form>
+
+</div>
+
+<button class="btn-voltar"><a href="index.php">Voltar</a></button>
     
 </body>
 </html>

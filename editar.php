@@ -18,6 +18,10 @@ if(isset($_GET['id']) && empty($_GET['id']) == false){
     header("Location: index.php");
 }
 
+?>
+
+<?php
+
 if(isset($_POST['nome']) && empty($_POST['nome']) == false){
     $nome = addslashes($_POST['nome']);
     $email = addslashes($_POST['email']);
@@ -28,6 +32,9 @@ if(isset($_POST['nome']) && empty($_POST['nome']) == false){
 
     header("Location: index.php");
 }
+?>
+
+<?php
 
 $nome = new Contato();
 $data1 = $nome->getNome($id);

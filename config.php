@@ -22,8 +22,6 @@ class Contato{
             $sql->execute();
 
             return true;
-        }else{
-            return false;
         }
     }
 
@@ -37,8 +35,6 @@ class Contato{
             $data = $sql->fetch();
 
             return $data['nome'];
-        }else{
-            echo "getNome falhou";
         }
     }
 
@@ -52,8 +48,6 @@ class Contato{
             $data = $sql->fetch();
 
             return $data['email'];
-        }else{
-            echo "Erro no getEmail";
         }
     }
 
@@ -67,8 +61,6 @@ class Contato{
             $data = $sql->fetch();
 
             return $data['telefone'];
-        }else{
-            echo "get Telefone falhou";
         }
     }
 
@@ -78,8 +70,6 @@ class Contato{
 
         if($sql->rowCount() > 0){
              return $sql->fetchAll();
-        }else{
-            echo "Não selecionou";
         }
     }
 
@@ -90,14 +80,11 @@ class Contato{
             $sql->bindValue(':id', $id);
             $sql->execute();
 
-            echo "Usuario deletado";
-        }else{
-            echo "Erro no delete";
+            return true;
         }
     }
 
     public function editar($nome, $email, $telefone, $id){
-        if($this->verificarEmail($email) == false && $this->verificarTelefone($telefone) == false && verificarNome($nome) == false){
             $sql = ("UPDATE usuarios SET nome = :nome, email = :email, telefone = :telefone WHERE id = :id");
             $sql = $this->pdo->prepare($sql);
             $sql->bindValue(':nome', $nome);
@@ -106,13 +93,22 @@ class Contato{
             $sql->bindValue(':id', $id);
             $sql->execute();
 
-            echo "Atualizado com sucesso";
-        }else{
-            echo "Erro na atualização";
-        }
+            return true;
+    
     }
 
     private function verificarEmail($email){
+        $sql = ("SELECT * FROM usuarios WHERE email = :email");
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':email', $email);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            return true;
+        }
+    }
+
+    public function verificarEmail2($email){
         $sql = ("SELECT * FROM usuarios WHERE email = :email");
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':email', $email);
@@ -134,7 +130,29 @@ class Contato{
         }
     }
 
+    public function verificarNome2($nome){
+        $sql = ("SELECT * FROM usuarios WHERE nome = :nome");
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':nome', $nome);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            return true;
+        }
+    }
+
     private function verificarTelefone($telefone){
+        $sql = ("SELECT * FROM usuarios WHERE telefone = :telefone");
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':telefone', $telefone);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            return true;
+        }
+    }
+
+    public function verificarTelefone2($telefone){
         $sql = ("SELECT * FROM usuarios WHERE telefone = :telefone");
         $sql = $this->pdo->prepare($sql);
         $sql->bindValue(':telefone', $telefone);
