@@ -95,7 +95,7 @@ if(isset($_POST['buscar']) && empty($_POST['buscar']) == false){
     
 </table><br>
     <div class="add-contato">
-        <button><a href="adicionar.php">Adicionar Contato</a></button>
+        <button><a href="adicionar.php">Adicionar Contato</a></button><br><br>
     </div>
     
 </body>
