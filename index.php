@@ -17,19 +17,31 @@
     }
 </script>
 
-<?php
-require_once "config.php";
-
-
-$contato = new Contato();
-?>
+<table border="1" width="100%" class="table-hover-header" style="text-align:center;">
 
 <form method="post">
     <span>Pesquise aqui</span><br>
     <input type="text" autofocus name="buscar"><input type="submit" value="Buscar"><br><br>
 </form>
 
+    <tr class="header">
+
+        <th>Id</th>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Telefone</th>
+        <th>Ação</th>
+        <th>Ação</th>
+    </tr>
+
 <?php
+
+require_once "config.php";
+
+
+$contato = new Contato();
+
+
 if(isset($_POST['buscar']) && empty($_POST['buscar']) == false){
     $buscar = addslashes($_POST['buscar']);
 
@@ -41,62 +53,41 @@ if(isset($_POST['buscar']) && empty($_POST['buscar']) == false){
         exit;
     }
     foreach($search as $pessoa):
-    ?>
-<table class="table" border="1" width="100%">
-    <tr style="background:yellow;" border="1">
-        <th>Id</th>
-        <th>Nome</th>
-        <th>E-mail</th>
-        <th>Telefone</th>
-    </tr>
+        ?>
     <tr>
         <th><?php echo $pessoa['id'];?></th>
         <th><?php echo $pessoa['nome'];?></th>
         <th><?php echo $pessoa['email'];?></th>
         <th><?php echo "(11) ".$pessoa['telefone']."<br>";?></th>
+        <th><a href="editar.php?id=<?php echo $pessoa['id'];?>">Editar</a></th>
+        <th><a href="excluir.php?id=<?php echo $pessoa['id'];?>">Excluir</a></th>
     </tr>
-</table>
-        <?php echo "<a href='index.php'>Voltar</a>"?>
-    <?php exit;?>
     <?php endforeach;
 
+}else{
+    $lista = $contato->getAll();
+    foreach($lista as $data){
+        echo "<tr class='lista'>";
+        echo "<th>".$data['id']."</th>";
+        echo "<th>".$data['nome']."</th>";
+        echo "<th>".$data['email']."</th>";
+        echo "<th>"."(11) ".$data['telefone']."</th>";
+        echo "<th>"."<a href=editar.php?id=".$data['id'].">Editar</a>"."</th>";
+        echo "<th>"."<a href=excluir.php?id=".$data['id'].">Excluir</a>"."</th>";
+        echo "</tr>";
+    }
 }
 ?>
-
-<table border="1" width="100%" class="table-hover-header" style="text-align:center;">
-    <tr class="header">
-
-        <th>Id</th>
-        <th>Nome</th>
-        <th>E-mail</th>
-        <th>Telefone</th>
-        <th>Ação</th>
-        <th>Ação</th>
-    </tr>
-
-
-<?php
-
-    $lista = $contato->getAll();
-    foreach($lista as $data):
-    ?>
-    <tr class="lista">
-
-        <th><?php echo $data['id'];?></th>
-        <th><?php echo $data['nome'];?></th>
-        <th><?php echo $data['email'];?></th>
-        <th><?php echo "(11) ".$data['telefone'];?></th>
-        <th><a href="editar.php?id=<?php echo $data['id'];?>">Editar</a></th>
-        <th><a href="excluir.php?id=<?php echo $data['id'];?>">Excluir</a></th>
-    </tr>
-
-    <?php endforeach; ?>
-
-    
 </table><br>
+
     <div class="add-contato">
         <button><a href="adicionar.php">Adicionar Contato</a></button><br><br>
     </div>
+
+
+
+
+
     
 </body>
 </html>
