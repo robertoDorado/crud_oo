@@ -62,6 +62,8 @@ if(isset($_POST['buscar']) && empty($_POST['buscar']) == false){
         <th><a href="editar.php?id=<?php echo $pessoa['id'];?>">Editar</a></th>
         <th><a href="excluir.php?id=<?php echo $pessoa['id'];?>">Excluir</a></th>
     </tr>
+    
+    
     <?php endforeach;
 
 }else{
