@@ -173,9 +173,21 @@ class Contato{
             return true;
         }
     }
+
+    public function buscar($campo){
+        $sql = "SELECT * FROM usuarios WHERE nome = :nome OR email = :email OR telefone = :telefone";
+        $sql = $this->pdo->prepare($sql);
+        $sql->bindValue(':nome', $campo);
+        $sql->bindValue(':email', $campo);
+        $sql->bindValue(':telefone', $campo);
+        $sql->execute();
+
+        if($sql->rowCount() > 0){
+            return $sql->fetchAll();
+        }
+    }
     
     
 }
-
 
 ?>

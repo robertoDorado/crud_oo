@@ -11,11 +11,56 @@
 </head>
 <body>
 
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
+
 <?php
 require_once "config.php";
 
 
 $contato = new Contato();
+?>
+
+<form method="post">
+    <span>Pesquise aqui</span><br>
+    <input type="text" autofocus name="buscar"><input type="submit" value="Buscar"><br><br>
+</form>
+
+<?php
+if(isset($_POST['buscar']) && empty($_POST['buscar']) == false){
+    $buscar = addslashes($_POST['buscar']);
+
+    $contato = new Contato();
+    $search = $contato->buscar($buscar);
+    if($search == false){
+        echo "Nenhum registro encontrado<br>";
+        echo "<a href='index.php';>Voltar</a>";
+        exit;
+    }
+    foreach($search as $pessoa):
+    ?>
+<table class="table" border="1" width="100%">
+    <tr style="background:yellow;" border="1">
+        <th>Id</th>
+        <th>Nome</th>
+        <th>E-mail</th>
+        <th>Telefone</th>
+    </tr>
+    <tr>
+        <th><?php echo $pessoa['id'];?></th>
+        <th><?php echo $pessoa['nome'];?></th>
+        <th><?php echo $pessoa['email'];?></th>
+        <th><?php echo "(11) ".$pessoa['telefone']."<br>";?></th>
+    </tr>
+</table>
+        <?php echo "<a href='index.php'>Voltar</a>"?>
+    <?php exit;?>
+    <?php endforeach;
+
+}
 ?>
 
 <table border="1" width="100%" class="table-hover-header" style="text-align:center;">
@@ -30,7 +75,8 @@ $contato = new Contato();
     </tr>
 
 
-    <?php
+<?php
+
     $lista = $contato->getAll();
     foreach($lista as $data):
     ?>
